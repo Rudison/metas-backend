@@ -24,20 +24,23 @@ class ListMetaService {
   public async getByCards({ ano }: IRequest): Promise<Metas[] | undefined> {
     const repository = getCustomRepository(MetasRepository);
 
-    console.log('rsp');
-    const vlrRealizadoVendSemanas = await repository
+    const metasAnuais = await repository
       .createQueryBuilder('a')
-      .select('a.id')
-      .addSelect('b.descricao || a.ano as "Mes"')
-      .addSelect('a."valorMetaMensal",')
+      .select('a.id as "id"')
+      .addSelect(
+        'concat(UPPER(substring(b.descricao,1, 3)), \'/\', a.ano) as "Mes"'
+      )
+      .addSelect('a."valorMetaMensal"')
       .addSelect('a."valorMetaRealizadoMensal"')
-      .addSelect('a."semanasNoMes",')
-      .addSelect('a.percentual')
+      .addSelect('a."semanasNoMes"')
+      .addSelect('a.percentual as "percentual"')
+      .addSelect('a."diasUteisMes"')
       .innerJoin('Meses', 'b', 'b.id = a."mesId"')
       .where('a.ano = :ano', { ano })
+      .orderBy('b.id')
       .getRawMany();
 
-    return vlrRealizadoVendSemanas;
+    return metasAnuais;
   }
 }
 

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import Meses from './Meses';
 
 @Entity('Metas')
 class Metas {
@@ -25,5 +32,18 @@ class Metas {
 
   @Column({ nullable: true })
   diasUteisMes: number;
+
+  @ManyToMany(
+    type => Meses,
+    mes => {
+      mes.id;
+    }
+  )
+  @JoinTable({
+    name: 'MetasMes',
+    joinColumns: [{ name: 'id' }],
+    inverseJoinColumns: [{ name: 'mesId' }]
+  })
+  meses: Meses[];
 }
 export default Metas;
