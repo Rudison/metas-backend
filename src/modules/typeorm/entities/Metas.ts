@@ -3,6 +3,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import Meses from './Meses';
@@ -33,7 +34,7 @@ class Metas {
   @Column({ nullable: true })
   diasUteisMes: number;
 
-  @ManyToMany(
+  @OneToMany(
     type => Meses,
     mes => {
       mes.id;

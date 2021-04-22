@@ -1,4 +1,5 @@
 import feriadosRouter from '@modules/routes/feriados/feriados.routes';
+import mesesRouter from '@modules/routes/meses/mes.routes';
 import metasRouter from '@modules/routes/metas/metas.routes';
 import metasSemanaRouter from '@modules/routes/metasSemana/metasSemana.routes';
 import metasVendMesRouter from '@modules/routes/metasVendedorMes/metasVendMes.routes';
@@ -10,6 +11,7 @@ import { Router } from 'express';
 
 const routes = Router();
 
+routes.use('/meses', mesesRouter);
 routes.use('/feriados', feriadosRouter);
 routes.use('/vendedores', vendedorRouter);
 routes.use('/usuarios', usuariosRouter);

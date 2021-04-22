@@ -11,7 +11,7 @@ class DeleteMetaService {
     const repository = getCustomRepository(MetasRepository);
 
     const meta = await repository.findOne(id);
-
+    // console.log(meta);
     if (!meta) throw new AppError('Meta Não Encontrada!');
 
     await repository.remove(meta);
