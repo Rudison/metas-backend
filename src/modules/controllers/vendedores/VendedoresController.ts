@@ -24,6 +24,15 @@ export default class VendedoresController {
     return response.json(vendedor);
   }
 
+  public async vendedorDropDown(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const selectVendedor = new ListVendedorService();
+    const vendedor = await selectVendedor.getVendedoresSelect();
+    return response.json(vendedor);
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { codVendBlue, nome, ativo, outros } = request.body;
     const createVendedor = new CreateVendedorService();
@@ -49,7 +58,6 @@ export default class VendedoresController {
       ativo,
       outros
     });
-    console.log(vendedor);
     return response.json(vendedor);
   }
 

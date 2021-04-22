@@ -28,4 +28,10 @@ export class VendedorRepository extends Repository<Vendedor> {
 
     return vendedor;
   }
+
+  public async findByDropDown(): Promise<Vendedor[] | undefined> {
+    const vendedor = this.find();
+
+    return vendedor;
+  }
 }

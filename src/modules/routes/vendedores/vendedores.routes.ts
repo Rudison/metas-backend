@@ -7,6 +7,8 @@ const vendedoresController = new VendedoresController();
 
 vendedorRouter.get('/', vendedoresController.index);
 
+vendedorRouter.get('/vendedoresSelect', vendedoresController.vendedorDropDown);
+
 vendedorRouter.get(
   '/:id',
   celebrate({

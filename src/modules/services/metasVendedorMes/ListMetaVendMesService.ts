@@ -24,6 +24,26 @@ class ListMetaVendMesService {
 
     return meta;
   }
+
+  public async getVendedoresSelect({
+    metaId
+  }: IRequest): Promise<MetasVendedorMes[] | undefined> {
+    const repository = getCustomRepository(MetasVendMesRepository);
+
+    const vendedoresMeta = await repository
+      .createQueryBuilder('a')
+      .select('a.id as "id"')
+      .addSelect('a."metaId"')
+      .addSelect('a."vendedorId"')
+      .addSelect('b.nome as "nome"')
+      .addSelect('a."valorMetaMensal"')
+      .innerJoin('Vendedores', 'b', 'b.id = a."vendedorId"')
+      .where('a."metaId" = :metaId', { metaId })
+      .orderBy('b.nome')
+      .getRawMany();
+
+    return vendedoresMeta;
+  }
 }
 
 export default ListMetaVendMesService;
