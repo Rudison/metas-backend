@@ -11,8 +11,10 @@ export class MetasSemanaRepository extends Repository<MetasSemana> {
     return metaSemana;
   }
 
-  public async findByMetaId(metaId: number): Promise<MetasSemana | undefined> {
-    const meta = this.findOne({
+  public async findByMetaId(
+    metaId: string
+  ): Promise<MetasSemana[] | undefined> {
+    const meta = this.find({
       where: { metaId }
     });
 

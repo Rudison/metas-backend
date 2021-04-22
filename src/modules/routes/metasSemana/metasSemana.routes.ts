@@ -15,6 +15,14 @@ metasSemanaRouter.get(
   metasController.show
 );
 
+metasSemanaRouter.get(
+  '/porMeta/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasController.byMetaId
+);
+
 metasSemanaRouter.post(
   '/',
   celebrate({

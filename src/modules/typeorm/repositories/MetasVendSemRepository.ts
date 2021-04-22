@@ -11,11 +11,12 @@ export class MetasVendSemRepository extends Repository<MetasVendedorSemana> {
     return meta;
   }
 
-  public async findByMetaId(
-    metaId: string
+  public async findByMetaVendId(
+    metaId: string,
+    vendedorId: string
   ): Promise<MetasVendedorSemana | undefined> {
     const meta = this.findOne({
-      where: { metaId }
+      where: { metaId, vendedorId }
     });
 
     return meta;

@@ -21,8 +21,8 @@ export class MetasVendMesRepository extends Repository<MetasVendedorMes> {
   }
 
   public async findByMetaVendedor(
-    metaId: number,
-    vendedorId: number
+    metaId: string,
+    vendedorId: string
   ): Promise<MetasVendedorMes | undefined> {
     const meta = this.findOne({
       where: { metaId, vendedorId }

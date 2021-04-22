@@ -4,6 +4,7 @@ import metasRouter from '@modules/routes/metas/metas.routes';
 import metasSemanaRouter from '@modules/routes/metasSemana/metasSemana.routes';
 import metasVendMesRouter from '@modules/routes/metasVendedorMes/metasVendMes.routes';
 import metasVendSemRouter from '@modules/routes/metasVendedorSemana/metasVendedorSem.routes';
+import semanasRouter from '@modules/routes/semanas/semanas.routes';
 import sessionsRouter from '@modules/routes/usuarios/sessions.routes';
 import usuariosRouter from '@modules/routes/usuarios/usuarios.routes';
 import vendedorRouter from '@modules/routes/vendedores/vendedores.routes';
@@ -11,6 +12,7 @@ import { Router } from 'express';
 
 const routes = Router();
 
+routes.use('/semanas', semanasRouter);
 routes.use('/meses', mesesRouter);
 routes.use('/feriados', feriadosRouter);
 routes.use('/vendedores', vendedorRouter);
