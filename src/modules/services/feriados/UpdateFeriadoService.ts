@@ -18,7 +18,8 @@ class UpdateFeriadoService {
 
     const diaExists = await feriadosRepository.findByDate(dia);
 
-    if (diaExists) throw new AppError('Dia Já Cadastrado!');
+    if (diaExists?.id != feriado.id)
+      if (diaExists) throw new AppError('Dia Já Cadastrado!');
 
     feriado.descricao = descricao;
     feriado.dia = dia;
