@@ -35,6 +35,18 @@ export default class MetasSemanaController {
     return response.json(meta);
   }
 
+  public async semanasMetaId(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId } = request.params;
+
+    const listMeta = new ListMetaSemanaService();
+    const meta = await listMeta.getSemanasRestantes({ metaId });
+
+    return response.json(meta);
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       metaId,

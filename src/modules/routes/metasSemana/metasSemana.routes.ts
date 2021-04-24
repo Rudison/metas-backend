@@ -23,14 +23,22 @@ metasSemanaRouter.get(
   metasController.byMetaId
 );
 
+metasSemanaRouter.get(
+  '/semanasRestantes/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasController.semanasMetaId
+);
+
 metasSemanaRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
       metaId: Joi.number().required(),
       semanaId: Joi.number().required(),
-      dataInicial: Joi.date().required(),
-      dataFinal: Joi.date().required(),
+      dataInicial: Joi.string().required(),
+      dataFinal: Joi.string().required(),
       diasAdicionais: Joi.number(),
       incluirFeriadoDaSemana: Joi.boolean()
     }

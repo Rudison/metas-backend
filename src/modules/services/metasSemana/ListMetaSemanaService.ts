@@ -45,6 +45,26 @@ class ListMetaSemanaService {
 
     return semanasMes;
   }
+
+  public async getSemanasRestantes({
+    metaId
+  }: IRequest): Promise<MetasSemana | undefined> {
+    const repository = getCustomRepository(MetasSemanaRepository);
+    console.log('entrou');
+    const semanasRestantes = await repository
+      .createQueryBuilder('a')
+      .select(
+        ' distinct coalesce((b."semanasNoMes" - count(a.id)), 0) as "semanasRestantes"'
+      )
+      .addSelect('b."semanasNoMes" as "semanasNoMes"')
+      .innerJoin('Metas', 'b', 'b.id = a."metaId"')
+      .where('a."metaId" = :metaId', { metaId })
+      .andWhere('a."semanaId" <> 6')
+      .groupBy('b."semanasNoMes"')
+      .getRawOne();
+
+    return semanasRestantes;
+  }
 }
 
 export default ListMetaSemanaService;
