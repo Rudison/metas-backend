@@ -37,8 +37,8 @@ metasSemanaRouter.post(
     [Segments.BODY]: {
       metaId: Joi.number().required(),
       semanaId: Joi.number().required(),
-      dataInicial: Joi.string().required(),
-      dataFinal: Joi.string().required(),
+      dataInicial: Joi.date(),
+      dataFinal: Joi.date(),
       diasAdicionais: Joi.number(),
       incluirFeriadoDaSemana: Joi.boolean()
     }
@@ -66,6 +66,14 @@ metasSemanaRouter.delete(
     [Segments.PARAMS]: { id: Joi.number().required() }
   }),
   metasController.delete
+);
+
+metasSemanaRouter.delete(
+  '/semanas/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasController.excluirTodos
 );
 
 export default metasSemanaRouter;

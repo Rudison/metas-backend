@@ -56,12 +56,13 @@ export default class MetasVendedorSemController {
   }
 
   public async patch(request: Request, response: Response): Promise<Response> {
-    const { metaId, metaSemanaId } = request.params;
+    const { metaId, metaSemanaId, metaMensal } = request.params;
 
     const updateMeta = new UpdatePercentualService();
     const meta = updateMeta.execute({
       metaId,
-      metaSemanaId
+      metaSemanaId,
+      metaMensal: false
     });
 
     return response.json(meta);
@@ -72,6 +73,18 @@ export default class MetasVendedorSemController {
 
     const deleteMeta = new DeleteMetaVendSemService();
     await deleteMeta.execute({ id });
+
+    return response.json([]);
+  }
+
+  public async deleteAll(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId } = request.params;
+
+    const deleteMeta = new DeleteMetaVendSemService();
+    await deleteMeta.excluirTodosPorMeta({ metaId });
 
     return response.json([]);
   }

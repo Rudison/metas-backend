@@ -50,7 +50,7 @@ class ListMetaSemanaService {
     metaId
   }: IRequest): Promise<MetasSemana | undefined> {
     const repository = getCustomRepository(MetasSemanaRepository);
-    console.log('entrou');
+
     const semanasRestantes = await repository
       .createQueryBuilder('a')
       .select(

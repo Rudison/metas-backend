@@ -3,9 +3,10 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import MetasVendedorSemana from './MetasVendedorSemana';
+import Vendedor from './Vendedor';
 
 @Entity('MetasVendedorMes')
 class MetasVendedorMes {
@@ -21,12 +22,12 @@ class MetasVendedorMes {
   @Column()
   valorMetaMensal: number;
 
-  @ManyToMany(type => MetasVendedorSemana, vendedor => vendedor.vendedorId)
+  @OneToMany(type => Vendedor, vendedor => vendedor.id)
   @JoinTable({
     name: 'MetaVendMes_Vendedores',
     joinColumns: [{ name: 'id' }],
     inverseJoinColumns: [{ name: 'vendedorId' }]
   })
-  vendedores: MetasVendedorSemana[];
+  vendedores: Vendedor[];
 }
 export default MetasVendedorMes;

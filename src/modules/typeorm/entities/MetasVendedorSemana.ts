@@ -2,11 +2,11 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import MetasVendedorMes from './MetasVendedorMes';
+import Vendedor from './Vendedor';
 
 @Entity('MetasVendedorSemana')
 class MetasVendedorSemana {
@@ -31,10 +31,10 @@ class MetasVendedorSemana {
   @Column()
   percentual: number;
 
-  @ManyToMany(
-    type => MetasVendedorMes,
+  @OneToMany(
+    type => Vendedor,
     vendedor => {
-      vendedor.vendedorId;
+      vendedor.id;
     }
   )
   @JoinTable({

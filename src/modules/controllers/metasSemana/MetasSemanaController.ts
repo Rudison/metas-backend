@@ -94,4 +94,16 @@ export default class MetasSemanaController {
 
     return response.json([]);
   }
+
+  public async excluirTodos(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId } = request.params;
+
+    const deleteMeta = new DeleteMetaSemanaService();
+    await deleteMeta.excluirTodosPorMeta({ metaId });
+
+    return response.json([]);
+  }
 }

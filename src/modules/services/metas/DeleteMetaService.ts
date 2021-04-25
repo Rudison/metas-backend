@@ -10,8 +10,7 @@ class DeleteMetaService {
   public async execute({ id }: IRequest): Promise<void> {
     const repository = getCustomRepository(MetasRepository);
 
-    const meta = await repository.findOne(id);
-    // console.log(meta);
+    const meta = await repository.findById(id);
     if (!meta) throw new AppError('Meta Não Encontrada!');
 
     await repository.remove(meta);

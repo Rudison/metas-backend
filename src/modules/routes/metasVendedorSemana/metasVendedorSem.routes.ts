@@ -61,4 +61,12 @@ metasVendSemRouter.delete(
   metasVendSemController.delete
 );
 
+metasVendSemRouter.delete(
+  '/vendedorSemana/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasVendSemController.deleteAll
+);
+
 export default metasVendSemRouter;

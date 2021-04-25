@@ -94,6 +94,8 @@ class CreateMetaSemanaService {
       });
       await repositoryMetaSemana.save(meta);
 
+      console.log(dataInicial, dataFinal);
+
       const mesLancamento = dataInicial.getMonth();
       const anoLancamento = dataInicial.getFullYear();
 

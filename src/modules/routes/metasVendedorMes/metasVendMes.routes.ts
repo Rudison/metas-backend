@@ -55,11 +55,23 @@ metasVendMesRouter.put(
 );
 
 metasVendMesRouter.delete(
-  '/:id',
+  '/:id/:metaId/:vendedorId',
   celebrate({
-    [Segments.PARAMS]: { id: Joi.number().required() }
+    [Segments.PARAMS]: {
+      id: Joi.number().required(),
+      metaId: Joi.number().required(),
+      vendedorId: Joi.number().required()
+    }
   }),
   metasVendMesController.delete
+);
+
+metasVendMesRouter.delete(
+  '/metasMes/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasVendMesController.excluirTodos
 );
 
 export default metasVendMesRouter;

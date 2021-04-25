@@ -11,6 +11,25 @@ export class MetasVendSemRepository extends Repository<MetasVendedorSemana> {
     return meta;
   }
 
+  public async findByMetaId(
+    metaId: string
+  ): Promise<MetasVendedorSemana | undefined> {
+    const meta = this.findOne({
+      where: { metaId }
+    });
+
+    return meta;
+  }
+
+  public async findSemanasMetaId(
+    metaId: string
+  ): Promise<MetasVendedorSemana[] | undefined> {
+    const meta = this.find({
+      where: { metaId }
+    });
+    return meta;
+  }
+
   public async findByMetaVendId(
     metaId: string,
     vendedorId: string

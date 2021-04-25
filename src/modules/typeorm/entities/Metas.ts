@@ -3,10 +3,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import Meses from './Meses';
+import MetasSemana from './MetasSemana';
+import MetasVendedorMes from './MetasVendedorMes';
+import MetasVendedorSemana from './MetasVendedorSemana';
 
 @Entity('Metas')
 class Metas {

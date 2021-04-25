@@ -71,10 +71,23 @@ export default class MetasVendedorMesController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const { id, metaId, vendedorId } = request.params;
 
     const deleteMeta = new DeleteMetaVendMesService();
-    await deleteMeta.execute({ id });
+
+    await deleteMeta.execute({ id, metaId, vendedorId });
+
+    return response.json([]);
+  }
+
+  public async excluirTodos(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId } = request.params;
+
+    const deleteMeta = new DeleteMetaVendMesService();
+    await deleteMeta.excluirTodos({ metaId });
 
     return response.json([]);
   }

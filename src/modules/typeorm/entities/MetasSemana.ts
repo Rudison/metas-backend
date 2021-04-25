@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import Metas from './Metas';
 
 @Entity('MetasSemana')
 class MetasSemana {
