@@ -40,6 +40,15 @@ class CreateMetaSemanaService {
       semanaId
     );
 
+    let retornoMeta = {
+      id: 1,
+      metaId,
+      semanaId,
+      dataInicial,
+      dataFinal,
+      diasUteisSemana
+    };
+
     if (metaSemanaExists)
       throw new AppError('Semana já existente para esse mês!');
 
@@ -94,7 +103,11 @@ class CreateMetaSemanaService {
       });
       await repositoryMetaSemana.save(meta);
 
-      console.log(dataInicial, dataFinal);
+      retornoMeta.id = meta.id;
+      retornoMeta.semanaId = meta.semanaId;
+      retornoMeta.dataInicial = meta.dataInicial;
+      retornoMeta.dataFinal = meta.dataFinal;
+      retornoMeta.diasUteisSemana = meta.diasUteisSemana;
 
       const mesLancamento = dataInicial.getMonth();
       const anoLancamento = dataInicial.getFullYear();
@@ -215,7 +228,7 @@ class CreateMetaSemanaService {
         });
       }
     }
-    return undefined;
+    return retornoMeta;
   }
 }
 
