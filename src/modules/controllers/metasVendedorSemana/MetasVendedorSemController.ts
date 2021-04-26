@@ -24,6 +24,21 @@ export default class MetasVendedorSemController {
     return response.json(meta);
   }
 
+  public async getVendedoreSemana(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, semanaId } = request.params;
+
+    const semanasVend = new ListMetaVendSemService();
+    const metaSemana = await semanasVend.getVendedoresMetaSemana({
+      metaId,
+      semanaId
+    });
+
+    return response.json(metaSemana);
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       metaSemanaId,
