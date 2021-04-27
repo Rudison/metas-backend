@@ -1,13 +1,14 @@
 import Meses from '@modules/typeorm/entities/Meses';
 import { MesRepository } from '@modules/typeorm/repositories/MesRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
 }
 class ListMesesService {
   public async execute({ id }: IRequest): Promise<Meses | undefined> {
-    const repository = getCustomRepository(MesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MesRepository);
 
     const mes = await repository.findById(id);
 
@@ -15,7 +16,8 @@ class ListMesesService {
   }
 
   public async executeAll(): Promise<Meses[] | undefined> {
-    const repository = getCustomRepository(MesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MesRepository);
 
     const meses = await repository
       .createQueryBuilder('a')

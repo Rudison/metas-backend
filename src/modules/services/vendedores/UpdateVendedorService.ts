@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 import Vendedor from '../../typeorm/entities/Vendedor';
 import { VendedorRepository } from '../../typeorm/repositories/VendedorRepository';
 
@@ -19,7 +19,8 @@ class UpdateVendedorService {
     ativo,
     outros
   }: IRequest): Promise<Vendedor> {
-    const vendedorReposiory = getCustomRepository(VendedorRepository);
+    const conn = await getConnection('metasConn');
+    const vendedorReposiory = conn.getCustomRepository(VendedorRepository);
 
     const vendedor = await vendedorReposiory.findOne(id);
 

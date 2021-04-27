@@ -1,7 +1,7 @@
 import MetasVendedorSemana from '@modules/typeorm/entities/MetasVendedorSemana';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaSemanaId: number;
@@ -9,7 +9,6 @@ interface IRequest {
   valorRealizado: number;
   valorPrevisto: number;
 }
-
 class CreateMetaVendSemService {
   public async execute({
     metaSemanaId,
@@ -17,7 +16,8 @@ class CreateMetaVendSemService {
     valorRealizado,
     valorPrevisto
   }: IRequest): Promise<MetasVendedorSemana> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
     const metaVendedorExists = await repository.findByMetaSemanaVendedorId(
       metaSemanaId,
       vendedorId

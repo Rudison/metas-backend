@@ -3,7 +3,7 @@ import { FeriadoRepository } from '@modules/typeorm/repositories/FeriadoReposito
 import { MetasRepository } from '@modules/typeorm/repositories/MetasRepository';
 import AppError from '@shared/errors/AppError';
 import moment from 'moment';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   mesId: number;
@@ -18,7 +18,8 @@ class CreateMetaService {
     valorMetaMensal,
     semanasNoMes
   }: IRequest): Promise<Metas> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
     const mesAnoExists = await repository.findByMonthYear(mesId, ano);
 
     if (mesAnoExists)
@@ -34,7 +35,7 @@ class CreateMetaService {
       ultimoDiaMes
     ).filter(dia => dia.getDay() > 0);
 
-    const feriadosRepository = getCustomRepository(FeriadoRepository);
+    const feriadosRepository = conn.getCustomRepository(FeriadoRepository);
 
     const feriados = await feriadosRepository.findAll();
     const diasFeriados = feriados.map(d => moment(d.dia).toDate());

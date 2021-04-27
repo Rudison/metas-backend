@@ -8,11 +8,7 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm';
 import Meses from './Meses';
-import MetasSemana from './MetasSemana';
-import MetasVendedorMes from './MetasVendedorMes';
-import MetasVendedorSemana from './MetasVendedorSemana';
-
-@Entity('Metas')
+@Entity('Metas', { database: 'apimetas' })
 class Metas {
   @PrimaryGeneratedColumn('increment')
   id: number;

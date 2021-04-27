@@ -1,7 +1,7 @@
 import MetasSemana from '@modules/typeorm/entities/MetasSemana';
 import { MetasSemanaRepository } from '@modules/typeorm/repositories/MetasSemanaRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -16,7 +16,8 @@ class UpdateMetaSemanaService {
     dataInicial,
     dataFinal
   }: IRequest): Promise<MetasSemana> {
-    const repository = getCustomRepository(MetasSemanaRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasSemanaRepository);
 
     const meta = await repository.findOne(id);
 

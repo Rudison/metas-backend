@@ -1,13 +1,6 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import Metas from './Metas';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('MetasSemana')
+@Entity('MetasSemana', { database: 'apimetas' })
 class MetasSemana {
   @PrimaryGeneratedColumn('increment')
   id: number;

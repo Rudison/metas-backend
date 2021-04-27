@@ -6,7 +6,7 @@ import { MetasVendMesRepository } from '@modules/typeorm/repositories/MetasVendM
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
 import moment from 'moment';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: number;
@@ -28,19 +28,25 @@ class CreateMetaSemanaService {
     diasAdicionais,
     incluirFeriadoDaSemana
   }: IRequest): Promise<MetasSemana | undefined> {
-    const repositoryMetaSemana = getCustomRepository(MetasSemanaRepository);
-    const repositoryMeta = getCustomRepository(MetasRepository);
-    const repositoryMetaVendSemana = getCustomRepository(
+    const conn = getConnection('metasConn');
+
+    const repositoryMetaSemana = conn.getCustomRepository(
+      MetasSemanaRepository
+    );
+    const repositoryMeta = conn.getCustomRepository(MetasRepository);
+    const repositoryMetaVendSemana = conn.getCustomRepository(
       MetasVendSemRepository
     );
-    const repositoryMetaVenMes = getCustomRepository(MetasVendMesRepository);
-    const feriadosRepository = getCustomRepository(FeriadoRepository);
+    const repositoryMetaVenMes = conn.getCustomRepository(
+      MetasVendMesRepository
+    );
+    const feriadosRepository = conn.getCustomRepository(FeriadoRepository);
     const metaSemanaExists = await repositoryMetaSemana.findByMetaSemanaId(
       metaId,
       semanaId
     );
 
-    let retornoMeta = {
+    const retornoMeta = {
       id: 1,
       metaId,
       semanaId,

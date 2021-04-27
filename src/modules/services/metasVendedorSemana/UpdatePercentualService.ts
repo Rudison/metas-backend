@@ -1,6 +1,6 @@
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: string;
@@ -14,7 +14,8 @@ class UpdatePercentualService {
     metaSemanaId,
     metaMensal
   }: IRequest): Promise<void> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     if (!metaMensal) {
       const meta = await repository.findUpdatesMetasId(metaId, metaSemanaId);

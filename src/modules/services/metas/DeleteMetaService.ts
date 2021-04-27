@@ -1,6 +1,6 @@
 import { MetasRepository } from '@modules/typeorm/repositories/MetasRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -8,7 +8,8 @@ interface IRequest {
 
 class DeleteMetaService {
   public async execute({ id }: IRequest): Promise<void> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
 
     const meta = await repository.findById(id);
     if (!meta) throw new AppError('Meta Não Encontrada!');

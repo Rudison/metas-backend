@@ -8,7 +8,7 @@ import {
 import MetasVendedorMes from './MetasVendedorMes';
 import Vendedor from './Vendedor';
 
-@Entity('MetasVendedorSemana')
+@Entity('MetasVendedorSemana', { database: 'apimetas' })
 class MetasVendedorSemana {
   @PrimaryGeneratedColumn('increment')
   id: number;

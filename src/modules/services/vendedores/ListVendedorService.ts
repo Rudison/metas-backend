@@ -1,9 +1,10 @@
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 import Vendedor from '../../typeorm/entities/Vendedor';
 import { VendedorRepository } from '../../typeorm/repositories/VendedorRepository';
 class ListVendedorService {
   public async execute(): Promise<Vendedor[]> {
-    const vendedorRepository = getCustomRepository(VendedorRepository);
+    const conn = getConnection('metasConn');
+    const vendedorRepository = conn.getCustomRepository(VendedorRepository);
 
     const vendedor = await vendedorRepository.find();
 
@@ -11,7 +12,8 @@ class ListVendedorService {
   }
 
   public async getVendedoresSelect(): Promise<Vendedor[] | undefined> {
-    const repository = getCustomRepository(VendedorRepository);
+    const conn = await getConnection('metasConn');
+    const repository = conn.getCustomRepository(VendedorRepository);
 
     const vendedoresMeta = await repository
       .createQueryBuilder('a')

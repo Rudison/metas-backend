@@ -2,25 +2,23 @@ import Metas from '@modules/typeorm/entities/Metas';
 import { MetasRepository } from '@modules/typeorm/repositories/MetasRepository';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-
+import { getConnection } from 'typeorm';
 interface IRequest {
   id: string;
   valorMetaMensal: number;
   semanasNoMes: number;
 }
-
 interface IRequestPerc {
   id: string;
 }
-
 class UpdateMetaService {
   public async execute({
     id,
     valorMetaMensal,
     semanasNoMes
   }: IRequest): Promise<Metas> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
 
     const meta = await repository.findOne(id);
 
@@ -35,13 +33,16 @@ class UpdateMetaService {
   }
 
   public async updateValorPercentual({ id }: IRequestPerc): Promise<void> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
 
     const meta = await repository.findOne(id);
 
     if (!meta) throw new AppError('Meta Não Encontrada!');
 
-    const repositoryMetasVendSem = getCustomRepository(MetasVendSemRepository);
+    const repositoryMetasVendSem = conn.getCustomRepository(
+      MetasVendSemRepository
+    );
 
     const vlrRealizadoVendSemanas = await repositoryMetasVendSem
       .createQueryBuilder('a')

@@ -1,7 +1,7 @@
 import MetasVendedorSemana from '@modules/typeorm/entities/MetasVendedorSemana';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -12,7 +12,8 @@ interface IRequestAll {
 
 class DeleteMetaVendSemService {
   public async execute({ id }: IRequest): Promise<void> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     const meta = await repository.findOne(id);
 
@@ -22,7 +23,8 @@ class DeleteMetaVendSemService {
   }
 
   public async excluirTodosPorMeta({ metaId }: IRequestAll): Promise<void> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     const meta = await repository.findSemanasMetaId(metaId);
     if (!meta) throw new AppError('Meta Semana Não Encontrada!');

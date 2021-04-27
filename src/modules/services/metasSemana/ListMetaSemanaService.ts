@@ -1,13 +1,14 @@
 import MetasSemana from '@modules/typeorm/entities/MetasSemana';
 import { MetasSemanaRepository } from '@modules/typeorm/repositories/MetasSemanaRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: string;
 }
 class ListMetaSemanaService {
   public async execute(): Promise<MetasSemana[]> {
-    const repository = getCustomRepository(MetasSemanaRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasSemanaRepository);
 
     const meta = await repository.find();
 
@@ -17,7 +18,8 @@ class ListMetaSemanaService {
   public async getByMeta({
     metaId
   }: IRequest): Promise<MetasSemana[] | undefined> {
-    const repository = getCustomRepository(MetasSemanaRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasSemanaRepository);
 
     const meta = await repository.findByMetaId(metaId);
 
@@ -27,7 +29,8 @@ class ListMetaSemanaService {
   public async getSemanasMes({
     metaId
   }: IRequest): Promise<MetasSemana[] | undefined> {
-    const repository = getCustomRepository(MetasSemanaRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasSemanaRepository);
 
     const semanasMes = await repository
       .createQueryBuilder('a')
@@ -49,7 +52,8 @@ class ListMetaSemanaService {
   public async getSemanasRestantes({
     metaId
   }: IRequest): Promise<MetasSemana | undefined> {
-    const repository = getCustomRepository(MetasSemanaRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasSemanaRepository);
 
     const semanasRestantes = await repository
       .createQueryBuilder('a')

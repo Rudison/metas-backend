@@ -2,13 +2,12 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import Vendedor from './Vendedor';
 
-@Entity('MetasVendedorMes')
+@Entity('MetasVendedorMes', { database: 'apimetas' })
 class MetasVendedorMes {
   @PrimaryGeneratedColumn('increment')
   id: number;

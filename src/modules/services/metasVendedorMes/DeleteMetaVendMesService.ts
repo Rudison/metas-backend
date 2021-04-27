@@ -2,7 +2,7 @@ import MetasVendedorMes from '@modules/typeorm/entities/MetasVendedorMes';
 import { MetasVendMesRepository } from '@modules/typeorm/repositories/MetasVendMesRepository';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -14,8 +14,11 @@ interface IRequestAll {
 }
 class DeleteMetaVendMesService {
   public async execute({ id, metaId, vendedorId }: IRequest): Promise<void> {
-    const repository = getCustomRepository(MetasVendMesRepository);
-    const repositoryMetaSemana = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
+    const repositoryMetaSemana = conn.getCustomRepository(
+      MetasVendSemRepository
+    );
 
     const meta = await repository.findById(id);
     if (!meta) throw new AppError('Meta Vendedor Mês Não Encontrado!');
@@ -32,7 +35,8 @@ class DeleteMetaVendMesService {
   }
 
   public async excluirTodos({ metaId }: IRequestAll): Promise<void> {
-    const repository = getCustomRepository(MetasVendMesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
 
     const meta = await repository.findByMetaId(metaId);
 

@@ -1,6 +1,6 @@
 import MetasVendedorSemana from '@modules/typeorm/entities/MetasVendedorSemana';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: string;
@@ -8,7 +8,8 @@ interface IRequest {
 }
 class ListMetaVendSemService {
   public async execute(): Promise<MetasVendedorSemana[]> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     const meta = await repository.find();
 
@@ -19,7 +20,8 @@ class ListMetaVendSemService {
     metaId,
     semanaId
   }: IRequest): Promise<MetasVendedorSemana[] | undefined> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     const vendedoresMetaSemana = await repository
       .createQueryBuilder('a')

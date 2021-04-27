@@ -1,6 +1,6 @@
 import MetasVendedorMes from '@modules/typeorm/entities/MetasVendedorMes';
 import { MetasVendMesRepository } from '@modules/typeorm/repositories/MetasVendMesRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: string;
@@ -8,7 +8,8 @@ interface IRequest {
 
 class ListMetaVendMesService {
   public async execute(): Promise<MetasVendedorMes[]> {
-    const repository = getCustomRepository(MetasVendMesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
 
     const meta = await repository.find();
 
@@ -18,7 +19,8 @@ class ListMetaVendMesService {
   public async executePorMeta({
     metaId
   }: IRequest): Promise<MetasVendedorMes[] | undefined> {
-    const repository = getCustomRepository(MetasVendMesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
 
     const meta = await repository.findByMetaId(metaId);
 
@@ -28,7 +30,8 @@ class ListMetaVendMesService {
   public async getVendedoresSelect({
     metaId
   }: IRequest): Promise<MetasVendedorMes[] | undefined> {
-    const repository = getCustomRepository(MetasVendMesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
 
     const vendedoresMeta = await repository
       .createQueryBuilder('a')

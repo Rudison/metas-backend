@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 import Vendedor from '../../typeorm/entities/Vendedor';
 import { VendedorRepository } from '../../typeorm/repositories/VendedorRepository';
 
@@ -18,7 +18,8 @@ class CreateVendedorService {
     ativo,
     outros
   }: IRequest): Promise<Vendedor> {
-    const vendedorRepository = getCustomRepository(VendedorRepository);
+    const conn = await getConnection('metasConn');
+    const vendedorRepository = conn.getCustomRepository(VendedorRepository);
 
     const codBlueExists = await vendedorRepository.findByCodBlue(codVendBlue);
 

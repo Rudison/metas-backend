@@ -1,7 +1,7 @@
 import MetasVendedorMes from '@modules/typeorm/entities/MetasVendedorMes';
 import { MetasVendMesRepository } from '@modules/typeorm/repositories/MetasVendMesRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -9,7 +9,8 @@ interface IRequest {
 
 class ShowMetaVendMesService {
   public async execute({ id }: IRequest): Promise<MetasVendedorMes> {
-    const repository = getCustomRepository(MetasVendMesRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendMesRepository);
 
     const meta = await repository.findById(id);
 

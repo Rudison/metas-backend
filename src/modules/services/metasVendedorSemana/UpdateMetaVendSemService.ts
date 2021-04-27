@@ -1,7 +1,7 @@
 import MetasVendedorSemana from '@modules/typeorm/entities/MetasVendedorSemana';
 import { MetasVendSemRepository } from '@modules/typeorm/repositories/MetasVendSemRepository';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   id: string;
@@ -13,7 +13,8 @@ class UpdateMetaVendSemService {
     id,
     valorPrevisto
   }: IRequest): Promise<MetasVendedorSemana> {
-    const repository = getCustomRepository(MetasVendSemRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     const meta = await repository.findById(id);
 

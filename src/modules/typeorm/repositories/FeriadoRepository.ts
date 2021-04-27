@@ -1,6 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
 import Feriado from '../entities/Feriado';
-
 @EntityRepository(Feriado)
 export class FeriadoRepository extends Repository<Feriado> {
   public async findAll(): Promise<Feriado[]> {

@@ -1,13 +1,14 @@
 import Metas from '@modules/typeorm/entities/Metas';
 import { MetasRepository } from '@modules/typeorm/repositories/MetasRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 interface IRequest {
   ano: string;
 }
 class ListMetaService {
   public async execute(): Promise<Metas[] | undefined> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
 
     const metas = await repository.find();
 
@@ -15,14 +16,16 @@ class ListMetaService {
   }
 
   public async executePorAno({ ano }: IRequest): Promise<Metas[] | undefined> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
     const metas = await repository.findByYear(ano);
 
     return metas;
   }
 
   public async getByCards({ ano }: IRequest): Promise<Metas[] | undefined> {
-    const repository = getCustomRepository(MetasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasRepository);
 
     const metasAnuais = await repository
       .createQueryBuilder('a')

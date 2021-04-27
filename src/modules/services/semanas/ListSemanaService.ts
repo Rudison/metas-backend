@@ -1,10 +1,11 @@
 import Semanas from '@modules/typeorm/entities/Semanas';
 import { SemanasRepository } from '@modules/typeorm/repositories/SemanasRepository';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 class ListSemanaService {
   public async execute(): Promise<Semanas[]> {
-    const semanaRepository = getCustomRepository(SemanasRepository);
+    const conn = getConnection('metasConn');
+    const semanaRepository = conn.getCustomRepository(SemanasRepository);
 
     const semana = await semanaRepository.find();
 
@@ -12,7 +13,8 @@ class ListSemanaService {
   }
 
   public async getVendedoresSelect(): Promise<Semanas[] | undefined> {
-    const repository = getCustomRepository(SemanasRepository);
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(SemanasRepository);
 
     const semanas = await repository
       .createQueryBuilder('a')

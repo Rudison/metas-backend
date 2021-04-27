@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { FeriadoRepository } from '../../typeorm/repositories/FeriadoRepository';
 
 interface IRequest {
@@ -8,7 +8,8 @@ interface IRequest {
 
 class DeleteFeriadoService {
   public async execute({ id }: IRequest): Promise<void> {
-    const feriadosRepository = getCustomRepository(FeriadoRepository);
+    const conn = getConnection('metasConn');
+    const feriadosRepository = conn.getCustomRepository(FeriadoRepository);
 
     const feriado = await feriadosRepository.findOne(id);
 
