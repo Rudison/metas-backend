@@ -103,4 +103,16 @@ export default class MetasVendedorSemController {
 
     return response.json([]);
   }
+
+  public async deletePorSemana(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, vendedorId } = request.params;
+
+    const deleteMeta = new DeleteMetaVendSemService();
+    await deleteMeta.excluirPorSemana({ metaId, vendedorId });
+
+    return response.json([]);
+  }
 }

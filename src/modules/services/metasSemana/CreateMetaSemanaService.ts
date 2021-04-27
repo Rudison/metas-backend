@@ -47,7 +47,7 @@ class CreateMetaSemanaService {
     );
 
     const retornoMeta = {
-      id: 1,
+      id: 0,
       metaId,
       semanaId,
       dataInicial,

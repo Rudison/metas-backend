@@ -4,8 +4,8 @@ import AppError from '@shared/errors/AppError';
 import { getConnection } from 'typeorm';
 
 interface IRequest {
-  metaId: number;
-  vendedorId: number;
+  metaId: string;
+  vendedorId: string;
   valorMetaMensal: number;
 }
 
@@ -35,6 +35,7 @@ class CreateMetaVendMesService {
 
     return meta;
   }
+  //metaId, metaSemanaId, vendedorId, valorRealizado:0, valorPrevisto: 50000, percentual:0
 }
 
 export default CreateMetaVendMesService;

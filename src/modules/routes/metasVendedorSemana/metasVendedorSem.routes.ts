@@ -80,4 +80,15 @@ metasVendSemRouter.delete(
   metasVendSemController.deleteAll
 );
 
+metasVendSemRouter.delete(
+  '/porSemana/:metaId/:vendedorId',
+  celebrate({
+    [Segments.PARAMS]: {
+      metaId: Joi.number().required(),
+      vendedorId: Joi.number().required()
+    }
+  }),
+  metasVendSemController.deletePorSemana
+);
+
 export default metasVendSemRouter;
