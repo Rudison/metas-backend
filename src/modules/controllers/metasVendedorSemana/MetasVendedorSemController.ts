@@ -39,6 +39,36 @@ export default class MetasVendedorSemController {
     return response.json(metaSemana);
   }
 
+  public async getSemanaExistente(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, vendedorId } = request.params;
+
+    const semanasVend = new ListMetaVendSemService();
+    const metaSemana = await semanasVend.existeMetaSemana({
+      metaId,
+      vendedorId
+    });
+
+    return response.json(metaSemana);
+  }
+
+  public async getRelatorio(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, semanaId } = request.params;
+
+    const semanasVend = new ListMetaVendSemService();
+    const metaSemana = await semanasVend.relatorioMetaSemana({
+      metaId,
+      semanaId
+    });
+
+    return response.json(metaSemana);
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       metaSemanaId,
@@ -78,6 +108,23 @@ export default class MetasVendedorSemController {
       metaId,
       metaSemanaId,
       metaMensal: false
+    });
+
+    return response.json(meta);
+  }
+
+  public async updateMetaMesVendedor(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, vendedorId } = request.params;
+    const { valorPrevisto } = request.body;
+
+    const updateMeta = new UpdateMetaVendSemService();
+    const meta = updateMeta.updateMetaVendMes({
+      metaId,
+      vendedorId,
+      valorPrevisto
     });
 
     return response.json(meta);

@@ -28,6 +28,28 @@ metasVendSemRouter.get(
   metasVendSemController.getVendedoreSemana
 );
 
+metasVendSemRouter.get(
+  '/existeMetaSemana/:metaId/:vendedorId',
+  celebrate({
+    [Segments.PARAMS]: {
+      metaId: Joi.number().required(),
+      vendedorId: Joi.number().required()
+    }
+  }),
+  metasVendSemController.getSemanaExistente
+);
+
+metasVendSemRouter.get(
+  '/relatorio/:metaId/:semanaId',
+  celebrate({
+    [Segments.PARAMS]: {
+      metaId: Joi.number().required(),
+      semanaId: Joi.number().required()
+    }
+  }),
+  metasVendSemController.getRelatorio
+);
+
 metasVendSemRouter.post(
   '/',
   celebrate({
@@ -46,7 +68,7 @@ metasVendSemRouter.put(
   celebrate({
     [Segments.PARAMS]: { id: Joi.number().required() },
     [Segments.BODY]: {
-      valorMetaMensal: Joi.number().required()
+      valorPrevisto: Joi.number().required()
     }
   }),
   metasVendSemController.update
@@ -62,6 +84,17 @@ metasVendSemRouter.patch(
     }
   }),
   metasUpdatePercController.update
+);
+
+metasVendSemRouter.patch(
+  '/metaMesVendedor/:metaId/:vendedorId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number(), vendedorId: Joi.number() },
+    [Segments.BODY]: {
+      valorPrevisto: Joi.number()
+    }
+  }),
+  metasVendSemController.updateMetaMesVendedor
 );
 
 metasVendSemRouter.delete(

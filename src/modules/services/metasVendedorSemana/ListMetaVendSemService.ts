@@ -6,6 +6,10 @@ interface IRequest {
   metaId: string;
   semanaId: string;
 }
+interface IRequestSemana {
+  metaId: string;
+  vendedorId: string;
+}
 class ListMetaVendSemService {
   public async execute(): Promise<MetasVendedorSemana[]> {
     const conn = getConnection('metasConn');
@@ -41,6 +45,61 @@ class ListMetaVendSemService {
       .getRawMany();
 
     return vendedoresMetaSemana;
+  }
+
+  public async existeMetaSemana({
+    metaId,
+    vendedorId
+  }: IRequestSemana): Promise<number> {
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
+
+    const id = await repository
+      .createQueryBuilder('a')
+      .select('a.id as "id"')
+      .innerJoin(
+        'MetasSemana',
+        'b',
+        'b."metaId" = a."metaId" and b.id = a."metaSemanaId"'
+      )
+      .where('a."metaId" = :metaId', { metaId })
+      .andWhere('a."vendedorId" = :vendedorId', { vendedorId })
+      .andWhere('b."semanaId" = 6')
+      .getRawOne();
+
+    const qtd = id == undefined ? 0 : id;
+    return qtd;
+  }
+
+  public async relatorioMetaSemana({
+    metaId,
+    semanaId
+  }: IRequest): Promise<MetasVendedorSemana[] | undefined> {
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
+
+    console.log('entrou');
+    const metasSemana = await repository
+      .createQueryBuilder('a')
+      .select('b."dataInicial"')
+      .addSelect('b."dataFinal"')
+      .addSelect('d.nome as "vendedor"')
+      .addSelect('a."valorRealizado"')
+      .addSelect('a."valorPrevisto"')
+      .addSelect('a.percentual as "percentual"')
+      .innerJoin(
+        'MetasSemana',
+        'b',
+        'b."metaId" = a."metaId" and b.id = a."metaSemanaId"'
+      )
+      .innerJoin('Semanas', 'c', 'c.id = b."semanaId"')
+      .innerJoin('Vendedores', 'd', 'd.id = a."vendedorId"')
+      .where('a."metaId" = :metaId', { metaId })
+      .andWhere('b."semanaId" = :semanaId', { semanaId })
+      .orderBy('d."nome"')
+      .getRawMany();
+
+    return metasSemana;
   }
 }
 
