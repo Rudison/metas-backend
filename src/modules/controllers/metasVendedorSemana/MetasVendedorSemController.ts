@@ -112,6 +112,23 @@ export default class MetasVendedorSemController {
 
     return response.json(meta);
   }
+  public async patchValorRealizado(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { metaId, semanaId, codVendBlue } = request.params;
+    const { valorRealizado } = request.body;
+
+    const updateMeta = new UpdateMetaVendSemService();
+    const meta = updateMeta.updateValorRealizadoSemana({
+      metaId,
+      semanaId,
+      codVendBlue,
+      valorRealizado
+    });
+
+    return response.json(meta);
+  }
 
   public async updateMetaMesVendedor(
     request: Request,

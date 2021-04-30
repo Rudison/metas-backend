@@ -31,6 +31,14 @@ metasVendMesRouter.get(
   metasVendMesController.vendedorSelect
 );
 
+metasVendMesRouter.get(
+  '/vendedoresSemana/:metaId',
+  celebrate({
+    [Segments.PARAMS]: { metaId: Joi.number().required() }
+  }),
+  metasVendMesController.vendedoreSemana
+);
+
 metasVendMesRouter.post(
   '/',
   celebrate({

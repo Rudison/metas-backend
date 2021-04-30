@@ -97,6 +97,21 @@ metasVendSemRouter.patch(
   metasVendSemController.updateMetaMesVendedor
 );
 
+metasVendSemRouter.patch(
+  '/valorRealizado/:metaId/:semanaId/:codVendBlue',
+  celebrate({
+    [Segments.PARAMS]: {
+      metaId: Joi.number(),
+      semanaId: Joi.number(),
+      codVendBlue: Joi.string()
+    },
+    [Segments.BODY]: {
+      valorRealizado: Joi.number()
+    }
+  }),
+  metasVendSemController.patchValorRealizado
+);
+
 metasVendSemRouter.delete(
   '/:id',
   celebrate({

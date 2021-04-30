@@ -1,3 +1,4 @@
+import metasBlueRouter from '@modules/routes/blue/metasBlue.routes';
 import feriadosRouter from '@modules/routes/feriados/feriados.routes';
 import mesesRouter from '@modules/routes/meses/mes.routes';
 import metasRouter from '@modules/routes/metas/metas.routes';
@@ -22,5 +23,6 @@ routes.use('/metas', metasRouter);
 routes.use('/metasVendedorMes', metasVendMesRouter);
 routes.use('/metasSemana', metasSemanaRouter);
 routes.use('/metasVendedorSemana', metasVendSemRouter);
+routes.use('/blue', metasBlueRouter);
 
 export default routes;
