@@ -4,21 +4,33 @@ import { getConnection } from 'typeorm';
 
 interface IRequest {
   metaId: string;
-  metaSemanaId: string;
+  semanaId: string;
   metaMensal: boolean;
 }
 
 class UpdatePercentualService {
   public async execute({
     metaId,
-    metaSemanaId,
+    semanaId,
     metaMensal
   }: IRequest): Promise<void> {
     const conn = getConnection('metasConn');
     const repository = conn.getCustomRepository(MetasVendSemRepository);
 
     if (!metaMensal) {
-      const meta = await repository.findUpdatesMetasId(metaId, metaSemanaId);
+      const meta = await repository
+        .createQueryBuilder('a')
+        .select('a.id as "id"')
+        .addSelect('a."valorRealizado"')
+        .addSelect('a."valorPrevisto"')
+        .innerJoin(
+          'MetasSemana',
+          'b',
+          'b."metaId" = a."metaId" and b.id = a."metaSemanaId"'
+        )
+        .where('a."metaId" = :metaId', { metaId })
+        .andWhere('b."semanaId" = :semanaId', { semanaId })
+        .getRawMany();
 
       if (!meta) throw new AppError('Meta Semana Vendedor Não Encontrada!');
 
@@ -30,7 +42,7 @@ class UpdatePercentualService {
 
       await repository.save(meta);
     } else {
-      const meta = await repository.findUpdatesMetasId(metaId, metaSemanaId);
+      const meta = await repository.findUpdatesMetasId(metaId, semanaId);
 
       const vlrRealizadoVendSemanas = await repository
         .createQueryBuilder('a')

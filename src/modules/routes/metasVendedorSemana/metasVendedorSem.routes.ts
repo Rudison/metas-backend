@@ -39,6 +39,17 @@ metasVendSemRouter.get(
   metasVendSemController.getSemanaExistente
 );
 
+// metasVendSemRouter.get(
+//   '/existeVendedorSemana/:metaId/:vendedorId',
+//   celebrate({
+//     [Segments.PARAMS]: {
+//       metaId: Joi.number().required(),
+//       vendedorId: Joi.number().required()
+//     }
+//   }),
+//   metasVendSemController.getVendedorNaSemana
+// );
+
 metasVendSemRouter.get(
   '/relatorio/:metaId/:semanaId',
   celebrate({
@@ -75,11 +86,11 @@ metasVendSemRouter.put(
 );
 
 metasVendSemRouter.patch(
-  '/percentual/',
+  '/percentual',
   celebrate({
     [Segments.BODY]: {
       metaId: Joi.number(),
-      metaSemanaId: Joi.number(),
+      semanaId: Joi.number(),
       metaMensal: Joi.boolean()
     }
   }),

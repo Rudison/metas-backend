@@ -4,12 +4,12 @@ import { Request, Response } from 'express';
 export default class MetasUpdatePercController {
   //
   public async update(request: Request, response: Response): Promise<Response> {
-    const { metaId, metaSemanaId, metaMensal } = request.body;
+    const { metaId, semanaId, metaMensal } = request.body;
 
     const updateMeta = new UpdatePercentualService();
     const meta = updateMeta.execute({
       metaId,
-      metaSemanaId,
+      semanaId,
       metaMensal
     });
 

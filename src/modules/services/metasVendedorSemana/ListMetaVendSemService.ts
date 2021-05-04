@@ -71,6 +71,29 @@ class ListMetaVendSemService {
     return qtd;
   }
 
+  public async existeVendedorSemana({
+    metaId,
+    vendedorId
+  }: IRequestSemana): Promise<number> {
+    const conn = getConnection('metasConn');
+    const repository = conn.getCustomRepository(MetasVendSemRepository);
+
+    const id = await repository
+      .createQueryBuilder('a')
+      .select('distinct count(*) as "qtd_semana"')
+      .innerJoin(
+        'MetasSemana',
+        'b',
+        'b."metaId" = a."metaId" and b.id = a."metaSemanaId"'
+      )
+      .where('a."metaId" = :metaId', { metaId })
+      .andWhere('a."vendedorId" = :vendedorId', { vendedorId })
+      .getRawOne();
+
+    const qtd = id == undefined ? 0 : id;
+    return qtd;
+  }
+
   public async relatorioMetaSemana({
     metaId,
     semanaId
@@ -78,7 +101,6 @@ class ListMetaVendSemService {
     const conn = getConnection('metasConn');
     const repository = conn.getCustomRepository(MetasVendSemRepository);
 
-    console.log('entrou');
     const metasSemana = await repository
       .createQueryBuilder('a')
       .select('b."dataInicial"')

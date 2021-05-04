@@ -90,12 +90,13 @@ class UpdateMetaVendSemService {
       .innerJoin('Vendedores', 'c', 'c.id = a."vendedorId"')
       .where('a."metaId" = :metaId', { metaId })
       .andWhere('b."semanaId" = :semanaId', { semanaId })
-      .andWhere(`c."codVendBlue" = ${codVendBlue}`)
+      .andWhere(`c."codVendBlue" = '${codVendBlue}'`)
       .getRawOne();
 
     const meta = await repository.findById(id);
+
     if (!meta) throw new AppError('Meta Semana Não Encontrada!');
-    console.log('entrou');
+
     meta.valorRealizado = valorRealizado;
 
     await repository.save(meta);
